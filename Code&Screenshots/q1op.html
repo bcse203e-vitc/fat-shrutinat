@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Water Bill</title>
+</head>
+<body>
+
+<h2>water bill</h2>
+
+<label for="usageInput">Enter water usage for household (in kiloliters):</label>
+<input type="text" id="usageInput" placeholder="e.g. 12.5">
+<button id="submitBtn">Submit</button>
+
+<h3>Current Household Charge: <span id="currentCharge">₹0.00</span></h3>
+
+
+<script>
+  const SERVICE_CHARGE = 50;
+
+  function calculateBill(klUsed) {
+    let Charge = 0;
+
+    if (klUsed <= 15) {
+      Charge = klUsed * 2;
+    } else if (klUsed <= 35) {
+
+      Charge = 15 * 2 + (klUsed - 15) * 5;
+    } else {
+ 
+      Charge = 15 * 2 + 20 * 5 + (klUsed - 35) * 10;
+    }
+
+    return SERVICE_CHARGE + Charge;
+  }
+
+  let totalAllBills = 0;
+
+  document.getElementById("submitBtn").addEventListener("click", () => {
+    const inputField = document.getElementById("usageInput");
+    const rawValue = inputField.value.trim();
+    const klUsed = parseFloat(rawValue);
+
+
+    if (rawValue === "" || isNaN(klUsed) || klUsed < 0) {
+      alert("Please enter a non-negative numeric value for kiloliters used.");
+      inputField.focus();
+      return;
+    }
+
+    const bill = calculateBill(klUsed);
+    document.getElementById("currentCharge").textContent = `₹${bill.toFixed(2)}`;
+    
+
+    inputField.value = "";
+    inputField.focus();
+  });
+</script>
+
+</body>
+</html>
